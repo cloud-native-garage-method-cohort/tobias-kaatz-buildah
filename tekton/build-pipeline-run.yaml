@@ -17,6 +17,8 @@ spec:
           requests:
             storage: 300Mi
   params:
+  - name: app-name
+    value: tobias-kaatz-buildah-app
   - name: source-repo
     value: https://github.com/cloud-native-garage-method-cohort/tobias-kaatz-buildah.git
   - name: image-repo

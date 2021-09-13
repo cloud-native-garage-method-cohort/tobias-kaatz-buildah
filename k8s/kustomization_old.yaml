@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- deployment.yaml
+- service.yaml
+- route.yaml
+images:
+- name: quay.io/upslope/express-sample-app
+  newName: quay.io/tkaatz/hello-web
+  newTag: 920bd6a9a8119771161576358a3168aee9cbc4d7
+commonLabels:
+  app: tobias-kaatz-express-sample-app
+  app.kubernetes.io/instance: tobias-kaatz-express-sample-app-instance
+  app.kubernetes.io/name: tobias-kaatz-express-sample-app
+commonAnnotations:
+  app.openshift.io/vcs-ref: 920bd6a9a8119771161576358a3168aee9cbc4d7
+  app.openshift.io/vcs-uri: https://github.com/13yo/express-sample-app

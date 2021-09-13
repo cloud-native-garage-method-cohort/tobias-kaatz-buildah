@@ -4,6 +4,9 @@ metadata:
   name: buildah-pipeline
 spec:
   params:
+    - name: app-name
+      type: string
+      description: Application name
     - name: source-repo
       type: string
       description: Source code repository
@@ -32,6 +35,25 @@ spec:
       params:
         - name: IMAGE
           value: "$(params.image-repo):$(tasks.clone-repository.results.commit)"
+      workspaces:
+        - name: source
+          workspace: pipeline-shared-data
+    - name: create-envorinment-config
+      runAfter:
+        - build-and-push-image
+      taskRef:
+        name: kustomize
+      params:
+        - name: app-name
+          value: "$(params.app-name)"
+        - name: app-namespace
+          value: "$(context.pipelineRun.namespace)"
+        - name: source-repo
+          value: "$(params.source-repo)"
+        - name: commit
+          value: "$(tasks.clone-repository.results.commit)"
+        - name: image-repo
+          value: "$(params.image-repo)"
       workspaces:
         - name: source
           workspace: pipeline-shared-data
